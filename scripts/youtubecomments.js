@@ -17,7 +17,8 @@ H5P.YouTubeComments = (function ($) {
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
       title: 'YouTube Comments',
-      secondsBetween: 2
+      secondsBetween: 2,
+      clearCommentsAfter: 0
     }, options);
     // Keep provided id.
     this.id = id;
@@ -57,6 +58,7 @@ H5P.YouTubeComments = (function ($) {
             var videoTitle = video.snippet.title; 
             var videoCommentCount = video.statistics.commentCount; 
             var msBetween = self.options.secondsBetween * 1000; 
+            var souldCommentsBeCleared = self.options.clearCommentsAfter > 0; 
 
             $.ajax({
               url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
@@ -64,8 +66,8 @@ H5P.YouTubeComments = (function ($) {
             .always(function(e) {
               $.each(e.items, function(index, commentThread) {
                 setTimeout(function() {
-                if (index % 3 == 0) {
-                  //$containerInner.children().remove();
+                if (souldCommentsBeCleared && index % self.options.clearCommentsAfter == 0) {
+                  $containerInner.children().remove();
                 }
                 comment = commentThread.snippet.topLevelComment.snippet;
                 $containerInner.prepend(
