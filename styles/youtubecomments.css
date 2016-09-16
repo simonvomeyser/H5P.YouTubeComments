@@ -31,7 +31,6 @@
 	padding: 5px;
 	position: relative;
 	margin-bottom: 5px;
-	min-height: 50px;
 }
 
 .youtubecomment__authorProfileImage {
@@ -42,4 +41,5 @@
 
 .youtubecomment__text {
   margin-left: 58px;
+  min-height: 60px;
 }
