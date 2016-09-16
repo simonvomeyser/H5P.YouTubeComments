@@ -16,8 +16,7 @@ H5P.YouTubeComments = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-      greeting: 'Hello world!',
-      image: null
+      title: 'YouTube Comments'
     }, options);
     // Keep provided id.
     this.id = id;
@@ -31,12 +30,18 @@ H5P.YouTubeComments = (function ($) {
      */
     C.prototype.attach = function ($container) {
       var self = this;
-      $container.append('<b>Getting the YouTube Comments!</b>');
       $container.addClass('h5p-youtubecomments-interaction-window');
+
+      $container.addClass('h5p-youtubecomments');
+      $container.append("<div class='h5p-youtubecomments__head'>"+ self.options.title+"</div>");
+      $container.append("<div class='h5p-youtubecomments__hide-button'>&times;</div>");
+      $container.append("<div class='h5p-youtubecomments__body'></div>");
 
       setTimeout(function() {
         var videoID = YouTubeHelper.getVideoId($container);
         var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
+        var $containerInner = $container.find('.h5p-youtubecomments__body');
+
         $.ajax({
           url: 'https://www.googleapis.com/youtube/v3/videos?id='+videoID+'&key='+APIKEY+'&part=snippet,statistics',
         })
@@ -46,21 +51,27 @@ H5P.YouTubeComments = (function ($) {
             var video = apiResponseForVideo.items[0]; //Generell Data
             var videoTitle = video.snippet.title; 
             var videoCommentCount = video.statistics.commentCount; 
-            $container.append("<div><b>Video Titel</b>: "+videoTitle+"</div>");
-            $container.append("<div><b>Anzahl Kommentare</b>: "+videoCommentCount+"</div>");
 
             $.ajax({
               url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
             })
             .always(function(e) {
               $.each(e.items, function(index, commentThread) {
-                $container.children().remove();
                 setTimeout(function() {
                 if (index % 3 == 0) {
-                  $container.children().remove();
+                  $containerInner.children().remove();
                 }
                 comment = commentThread.snippet.topLevelComment.snippet;
-                $container.append('<div class="comment"> <div class="authorProfileImage"> <img src="'+comment.authorProfileImageUrl+'" alt=""/> </div> <div class="text"> <b>'+comment.authorDisplayName+': </b><br/>' + comment.textDisplay+'</div> </div>');
+                $containerInner.prepend(
+                  ' \
+                  <div class="youtubecomment"> \
+                    <div class="youtubecomment__authorProfileImage"> \
+                     <img src="'+comment.authorProfileImageUrl+'" alt=""/> \
+                    </div> \
+                    <div class="youtubecomment__text"> \
+                     <b>'+comment.authorDisplayName+': </b><br/>' + comment.textDisplay+' \
+                    </div> \
+                  </div>');
                 }, 2000 * index);                  
               });
             });
