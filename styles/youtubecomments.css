@@ -21,9 +21,14 @@
 }
 
 .h5p-youtubecomments__head {
-	margin-bottom: 5px;
-	text-align: center;
-	padding-left: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 18px;
+  padding-left: 5px;
+}
+.h5p-youtubecomments__head p {
+  margin:  0;
+  padding:  0;
 }
 
 .youtubecomment {
@@ -49,4 +54,11 @@
 .youtubecomment__text {
   margin-left: 58px;
   min-height: 60px;
+  font-size: 16px;
+}
+.youtubecomment__error {
+  padding: 5px;
+  color: #D8000C;
+  border: 1px #D8000C dotted; 
+  background-color: #FFBABA;
 }
