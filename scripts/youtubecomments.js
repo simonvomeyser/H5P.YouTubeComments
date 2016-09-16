@@ -42,7 +42,28 @@ H5P.YouTubeComments = (function ($) {
       console.log ($container.parents('.h5p-video-wrapper').find('iframe').attr('src'));
     }
 
+    this.getYouTubeVideo = function($container) {
+      return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
+    }
 
+    this.YouTubeHelper = new function() {
+
+        /**
+         * Use so to get the ID of the video
+         * @param {[String]} in emebd format: https://www.youtube.com/embed/-RxoROBOoWE?...
+         * @return {[String]} 
+         */
+        this.videoUrlToId = function (url) {
+          console.log ("cleaning" + url); //Debug
+          id = url
+            //cleans everything before embed
+            .replace(/.*embed\//g,'') 
+            //cleans everything after ?
+            .replace(/\?.*/g,'');
+
+          return id;
+        };
+    }
 
 
 
