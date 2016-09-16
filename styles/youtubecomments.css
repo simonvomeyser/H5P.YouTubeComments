@@ -1,0 +1,31 @@
+.h5p-interaction.h5p-poster.h5p-youtubecomments-interaction {
+	background: rgba(255,255,255,0.7) !important;
+}
+.h5p-youtubecomments-interaction-window {
+	transition: opacity 1s ease-in-out;
+}
+.h5p-youtubecomments {
+	padding:  5px;
+}
+
+.h5p-youtubecomments__head {
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.youtubecomment {
+	background: white;
+	padding: 5px;
+	position: relative;
+	margin-bottom: 5px;
+}
+
+.youtubecomment__authorProfileImage {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+.youtubecomment__text {
+  margin-left: 58px;
+}
