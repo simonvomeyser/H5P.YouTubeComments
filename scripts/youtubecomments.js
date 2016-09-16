@@ -82,6 +82,13 @@ H5P.YouTubeComments = (function ($) {
       };
     }
 
+    
+    this.displayError = function(error, $container) {
+      $container.append('<div class="error">Leider ist ein Fehler aufgetreten! :(</div>');
+      this.setTimeout(function () {
+        $container.remove();
+      }, 3000)
+    }
 
 
     return C;
