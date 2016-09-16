@@ -94,7 +94,7 @@ H5P.YouTubeComments = (function ($) {
               });
               // When there are no comments
               if (e.items.length == 0) {
-                $containerInner.append('<p>Keine Kommentare zu diesem Video.</p>')
+                $containerInner.append('<p>Keine Kommentare zu diesem Video...</p>')
               }
             });
 
@@ -103,13 +103,13 @@ H5P.YouTubeComments = (function ($) {
           } // --END If there is a video found
           // No video found here
           else {
-            this.displayError('Kein Video gefunden', $container);
+            displayError('Kein Video gefunden', $container);
           } // --END If there is no video found
 
         }) // --END callback videoApiCall
         .fail(function(e) {
-          console.log (e.responseJSON.error.message);
-          this.displayError(null, $container);
+          console.log (e);
+          displayError(null, $container);
         });  // --END Fail callback videoApiCall
       }, 1000);
 
@@ -154,7 +154,7 @@ H5P.YouTubeComments = (function ($) {
     
     this.displayError = function(errorText, $container) {
       errorText = errorText ? errorText : 'Leider ist ein Fehler aufgetreten!';
-      $container.append('<div class="youtubecomment">'+errorText+'</div>');
+      $container.append('<div class="youtubecomment__error">'+errorText+'</div>');
     }
 
     return C;
