@@ -34,41 +34,52 @@ H5P.YouTubeComments = (function ($) {
       console.log ("Attach!")
 
       setTimeout(function() {
-        console.log (this.YouTubeHelper.videoUrlToId(videoUrl))
-
+        var videoUrl = YouTubeHelper.getVideoId($container);
+        var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
+        $.ajax({
+          url: 'https://www.googleapis.com/youtube/v3/videos?id='+videoUrl+'&key='+APIKEY+'&part=snippet,statistics',
+        })
+        .done(function(apiResponseForVideo) {
+          console.log (apiResponseForVideo); //Debug
+        }); // Done callback
       }, 1000);
       // Add greeting text.
       $container.append('<b>Getting the YouTube Comments!</b>');
 
     };
 
-    this.YouTubeHelper = new function() {
+    var YouTubeHelper = new function() {
+      var self = this;
 
-        /**
-         * Gets the YouTube Video from the parents
-         * @todo there has to be a better way, should be passed by h5pEditor
-         * @param  {$(domObject)} $container 
-         * @return {String}            
-         */
-        this.getYouTubeVideo = function($container) {
-          return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
-        }
+      /**
+       * Gets the YouTube Video from the parents
+       * @todo there has to be a better way, should be passed by h5pEditor
+       * @param  {$(domObject)} $container 
+       * @return {String}            
+       */
+      this.getVideoUrl = function($container) {
+        return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
+      }
 
-        /**
-         * Use so to get the ID of the video
-         * @param {[String]} in emebd format: https://www.youtube.com/embed/-RxoROBOoWE?...
-         * @return {[String]} 
-         */
-        this.videoUrlToId = function (url) {
-          console.log ("cleaning" + url); //Debug
-          id = url
-            //cleans everything before embed
-            .replace(/.*embed\//g,'') 
-            //cleans everything after ?
-            .replace(/\?.*/g,'');
+      this.getVideoId = function($container) {
+        return self.videoUrlToId(self.getVideoUrl($container))
+      }
 
-          return id;
-        };
+      /**
+       * Use so to get the ID of the video
+       * @param {[String]} in emebd format: https://www.youtube.com/embed/-RxoROBOoWE?...
+       * @return {[String]} 
+       */
+      this.videoUrlToId = function (url) {
+        console.log ("cleaning" + url); //Debug
+        id = url
+          //cleans everything before embed
+          .replace(/.*embed\//g,'') 
+          //cleans everything after ?
+          .replace(/\?.*/g,'');
+
+        return id;
+      };
     }
 
 
