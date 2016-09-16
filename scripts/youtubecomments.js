@@ -31,20 +31,56 @@ H5P.YouTubeComments = (function ($) {
      */
     C.prototype.attach = function ($container) {
       var self = this;
-      console.log ("Attach!")
+      $container.append('<b>Getting the YouTube Comments!</b>');
+      $container.addClass('h5p-youtubecomments-interaction-window');
 
       setTimeout(function() {
-        var videoUrl = YouTubeHelper.getVideoId($container);
+        var videoID = YouTubeHelper.getVideoId($container);
         var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
         $.ajax({
-          url: 'https://www.googleapis.com/youtube/v3/videos?id='+videoUrl+'&key='+APIKEY+'&part=snippet,statistics',
+          url: 'https://www.googleapis.com/youtube/v3/videos?id='+videoID+'&key='+APIKEY+'&part=snippet,statistics',
         })
         .done(function(apiResponseForVideo) {
-          console.log (apiResponseForVideo); //Debug
-        }); // Done callback
+          // If there is a video found
+          if (apiResponseForVideo.items.length) {
+            var video = apiResponseForVideo.items[0]; //Generell Data
+            var videoTitle = video.snippet.title; 
+            var videoCommentCount = video.statistics.commentCount; 
+            $container.append("<div><b>Video Titel</b>: "+videoTitle+"</div>");
+            $container.append("<div><b>Anzahl Kommentare</b>: "+videoCommentCount+"</div>");
+
+            $.ajax({
+              url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
+            })
+            .always(function(e) {
+              $.each(e.items, function(index, commentThread) {
+                $container.children().remove();
+                setTimeout(function() {
+                if (index % 3 == 0) {
+                  $container.children().remove();
+                }
+                comment = commentThread.snippet.topLevelComment.snippet;
+                $container.append('<div class="comment"> <div class="authorProfileImage"> <img src="'+comment.authorProfileImageUrl+'" alt=""/> </div> <div class="text"> <b>'+comment.authorDisplayName+': </b><br/>' + comment.textDisplay+'</div> </div>');
+                }, 2000 * index);                  
+              });
+            });
+
+
+
+          } // --END If there is a video found
+          // No video found
+          else {
+            this.displayError('Kein Video gefunden', $container);
+          } // --END If there is no video found
+
+        }) // Done callback videoApiCall
+        .fail(function(e) {
+          var errorText = e.responseJSON.error.message;
+          this.displayError(errorText, $container);
+        });  // Fail callback videoApiCall
       }, 1000);
+
       // Add greeting text.
-      $container.append('<b>Getting the YouTube Comments!</b>');
 
     };
 
@@ -71,7 +107,6 @@ H5P.YouTubeComments = (function ($) {
        * @return {[String]} 
        */
       this.videoUrlToId = function (url) {
-        console.log ("cleaning" + url); //Debug
         id = url
           //cleans everything before embed
           .replace(/.*embed\//g,'') 
@@ -83,8 +118,9 @@ H5P.YouTubeComments = (function ($) {
     }
 
     
-    this.displayError = function(error, $container) {
+    this.displayError = function(errorText, $container) {
       $container.append('<div class="error">Leider ist ein Fehler aufgetreten! :(</div>');
+      console.log (errorText); //Debug
       this.setTimeout(function () {
         $container.remove();
       }, 3000)
