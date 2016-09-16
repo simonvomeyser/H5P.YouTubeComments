@@ -1,20 +1,16 @@
 [
   {
-    "name": "YouTube Comments",
+    "name": "title",
     "type": "text",
     "widget": "html",
-    "label": "Text",
+    "label": "Title",
+    "optional": true,
     "enterMode": "p",
+    "description": "The title above the comments.",
     "tags": [
       "strong",
       "em",
-      "del",
-      "a",
-      "ul",
-      "ol",
-      "h2",
-      "h3",
-      "hr"
+      "a"
     ]
   }
 ]
