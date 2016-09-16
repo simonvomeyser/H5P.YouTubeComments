@@ -6,10 +6,6 @@ var H5P = H5P || {};
  * @param {object} params Options for this library.
  * @param {string} contentPath The path to our content folder.
  */
-// H5P.YouTubeComments = function (params, id) {
-// 	console.log ("YTComment!"); //Debug
-//   this.text = params.text === undefined ? '<em>New text</em>' : params.text;
-// };
 H5P.YouTubeComments = (function ($) {
 
   function C(options, id) {
@@ -25,24 +21,27 @@ H5P.YouTubeComments = (function ($) {
   };
 
     /**
-     * Attach function called by H5P framework to insert H5P content into
-     * page
-     *
+     * Attach function called by H5P framework to insert H5P content into page
      * @param {jQuery} $container
      */
     C.prototype.attach = function ($container) {
       var self = this;
-      $container.addClass('h5p-youtubecomments-interaction-window');
 
+      // Add HTML-Elements to interaction window
+      $container.addClass('h5p-youtubecomments-interaction-window');
       $container.addClass('h5p-youtubecomments');
       $container.append("<div class='h5p-youtubecomments__head'>"+ self.options.title+"</div>");
       $container.append("<div class='h5p-youtubecomments__hide-button'>&times;</div>").on('click',  function(event) {
           $(this).closest('.h5p-youtubecomments-interaction').addClass('h5p-youtubecomments-interaction--fade-out')
-          console.log ($(this).closest('.h5p-youtubecomments-interaction')); //Debug
-          /* Act on the event */
         });;
       $container.append("<div class='h5p-youtubecomments__body'></div>");
 
+      /**
+       * Wait for one second - unfortunatly this is necessary
+       * We we
+       * @param  {[type]} ) {           var videoID 
+       * @return {[type]}   
+       */
       setTimeout(function() {
         var videoID = YouTubeHelper.getVideoId($container);
         var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
@@ -57,13 +56,20 @@ H5P.YouTubeComments = (function ($) {
             var video = apiResponseForVideo.items[0]; //Generell Data
             var videoTitle = video.snippet.title; 
             var videoCommentCount = video.statistics.commentCount; 
+            // Options from author
             var msBetween = self.options.secondsBetween * 1000; 
             var souldCommentsBeCleared = self.options.clearCommentsAfter > 0; 
 
+            /**
+             * Get actual comments
+             */
             $.ajax({
               url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
             })
             .always(function(e) {
+              /**
+               * Iterate through comments, add them to the container
+               */
               $.each(e.items, function(index, commentThread) {
                 setTimeout(function() {
                 if (souldCommentsBeCleared && index % self.options.clearCommentsAfter == 0) {
@@ -86,27 +92,32 @@ H5P.YouTubeComments = (function ($) {
                 },100);
                 }, msBetween * index);                  
               });
+              // When there are no comments
+              if (e.items.length == 0) {
+                $containerInner.append('<p>Keine Kommentare zu diesem Video.</p>')
+              }
             });
 
 
 
           } // --END If there is a video found
-          // No video found
+          // No video found here
           else {
             this.displayError('Kein Video gefunden', $container);
           } // --END If there is no video found
 
-        }) // Done callback videoApiCall
+        }) // --END callback videoApiCall
         .fail(function(e) {
-          var errorText = e.responseJSON.error.message;
-          this.displayError(errorText, $container);
-        });  // Fail callback videoApiCall
+          console.log (e.responseJSON.error.message);
+          this.displayError(null, $container);
+        });  // --END Fail callback videoApiCall
       }, 1000);
-
-      // Add greeting text.
 
     };
 
+    /**
+     * Helper function from youTube proof of concept
+     */
     var YouTubeHelper = new function() {
       var self = this;
 
@@ -142,13 +153,9 @@ H5P.YouTubeComments = (function ($) {
 
     
     this.displayError = function(errorText, $container) {
-      $container.append('<div class="error">Leider ist ein Fehler aufgetreten! :(</div>');
-      console.log (errorText); //Debug
-      this.setTimeout(function () {
-        $container.remove();
-      }, 3000)
+      errorText = errorText ? errorText : 'Leider ist ein Fehler aufgetreten!';
+      $container.append('<div class="youtubecomment">'+errorText+'</div>');
     }
-
 
     return C;
   })(H5P.jQuery);
