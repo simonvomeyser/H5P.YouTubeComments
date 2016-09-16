@@ -16,7 +16,8 @@ H5P.YouTubeComments = (function ($) {
     this.$ = $(this);
     // Extend defaults with provided options
     this.options = $.extend(true, {}, {
-      title: 'YouTube Comments'
+      title: 'YouTube Comments',
+      secondsBetween: 2
     }, options);
     // Keep provided id.
     this.id = id;
@@ -55,6 +56,7 @@ H5P.YouTubeComments = (function ($) {
             var video = apiResponseForVideo.items[0]; //Generell Data
             var videoTitle = video.snippet.title; 
             var videoCommentCount = video.statistics.commentCount; 
+            var msBetween = self.options.secondsBetween * 1000; 
 
             $.ajax({
               url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
@@ -79,8 +81,8 @@ H5P.YouTubeComments = (function ($) {
                 // Animation
                 setTimeout(function() {
                   $('.youtubecomment').addClass('youtubecomment--shown');
-                },200);
-                }, 2000 * index);                  
+                },100);
+                }, msBetween * index);                  
               });
             });
 

@@ -33,7 +33,7 @@
 	padding: 5px;
 	position: relative;
 	margin-bottom: 5px;
-  transition: all .5s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 .youtubecomment--shown {
   transform: translateY(0);

@@ -12,5 +12,15 @@
       "em",
       "a"
     ]
+  },
+  {
+  "name": "secondsBetween",
+  "type": "number",
+  "label": "Seconds between comments",
+  "description": "Seconds between displaying the comments",
+  "min": 1,
+  "max": 10,
+  "step": 1,
+  "default": 2
   }
 ]
