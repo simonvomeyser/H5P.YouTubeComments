@@ -34,7 +34,11 @@ H5P.YouTubeComments = (function ($) {
 
       $container.addClass('h5p-youtubecomments');
       $container.append("<div class='h5p-youtubecomments__head'>"+ self.options.title+"</div>");
-      $container.append("<div class='h5p-youtubecomments__hide-button'>&times;</div>");
+      $container.append("<div class='h5p-youtubecomments__hide-button'>&times;</div>").on('click',  function(event) {
+          $(this).closest('.h5p-youtubecomments-interaction').addClass('h5p-youtubecomments-interaction--fade-out')
+          console.log ($(this).closest('.h5p-youtubecomments-interaction')); //Debug
+          /* Act on the event */
+        });;
       $container.append("<div class='h5p-youtubecomments__body'></div>");
 
       setTimeout(function() {
