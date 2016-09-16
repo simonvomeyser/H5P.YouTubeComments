@@ -63,7 +63,7 @@ H5P.YouTubeComments = (function ($) {
               $.each(e.items, function(index, commentThread) {
                 setTimeout(function() {
                 if (index % 3 == 0) {
-                  $containerInner.children().remove();
+                  //$containerInner.children().remove();
                 }
                 comment = commentThread.snippet.topLevelComment.snippet;
                 $containerInner.prepend(
@@ -76,6 +76,10 @@ H5P.YouTubeComments = (function ($) {
                      <b>'+comment.authorDisplayName+': </b><br/>' + comment.textDisplay+' \
                     </div> \
                   </div>');
+                // Animation
+                setTimeout(function() {
+                  $('.youtubecomment').addClass('youtubecomment--shown');
+                },200);
                 }, 2000 * index);                  
               });
             });

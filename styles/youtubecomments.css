@@ -27,10 +27,17 @@
 }
 
 .youtubecomment {
+  transform: translateY(-10px);
+  opacity: 0;
 	background: white;
 	padding: 5px;
 	position: relative;
 	margin-bottom: 5px;
+  transition: all .5s ease-in-out;
+}
+.youtubecomment--shown {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .youtubecomment__authorProfileImage {
