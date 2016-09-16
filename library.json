@@ -1,0 +1,20 @@
+{
+  "title": "YouTube Comments",
+  "description": "A way to integrate YouTube comments in your page",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "machineName": "H5P.YouTubeComments",
+  "author": "Simon vom Eyser, Tobias Emde",
+  "preloadedJs": [
+    {
+      "path": "scripts/youtubecomments.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "styles/youtubecomments.css"
+    }
+  ]
+}
