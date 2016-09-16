@@ -33,20 +33,26 @@ H5P.YouTubeComments = (function ($) {
       var self = this;
       console.log ("Attach!")
 
+      setTimeout(function() {
+        console.log (this.YouTubeHelper.videoUrlToId(videoUrl))
+
+      }, 1000);
       // Add greeting text.
       $container.append('<b>Getting the YouTube Comments!</b>');
 
     };
 
-    function getYouTubeVideo($container) {
-      console.log ($container.parents('.h5p-video-wrapper').find('iframe').attr('src'));
-    }
-
-    this.getYouTubeVideo = function($container) {
-      return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
-    }
-
     this.YouTubeHelper = new function() {
+
+        /**
+         * Gets the YouTube Video from the parents
+         * @todo there has to be a better way, should be passed by h5pEditor
+         * @param  {$(domObject)} $container 
+         * @return {String}            
+         */
+        this.getYouTubeVideo = function($container) {
+          return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
+        }
 
         /**
          * Use so to get the ID of the video
