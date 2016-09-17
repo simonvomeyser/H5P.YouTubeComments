@@ -18,6 +18,11 @@ H5P.YouTubeComments = (function ($) {
     }, options);
     // Keep provided id.
     this.id = id;
+
+    // Broke Image Handling
+    $('.youtubecomment__authorProfileImage>img').error(function(){
+      $(this).attr('src', 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50');
+    });
   };
 
     /**
@@ -38,9 +43,6 @@ H5P.YouTubeComments = (function ($) {
 
       /**
        * Wait for one second - unfortunatly this is necessary
-       * We we
-       * @param  {[type]} ) {           var videoID 
-       * @return {[type]}   
        */
       setTimeout(function() {
         var videoID = YouTubeHelper.getVideoId($container);
@@ -111,7 +113,7 @@ H5P.YouTubeComments = (function ($) {
           console.log (e);
           displayError(null, $container);
         });  // --END Fail callback videoApiCall
-      }, 1000);
+      }, 1000); // --END Timeout
 
     };
 
