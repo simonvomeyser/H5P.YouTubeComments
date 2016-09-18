@@ -19,6 +19,12 @@
 .h5p-youtubecomments__hide-button:hover {
 	cursor: pointer;
 }
+.h5p-youtubecomments__loading {
+  text-align: center;
+}
+.h5p-youtubecomments__loading-span {
+  
+}
 
 .h5p-youtubecomments__head {
   margin-bottom: 5px;

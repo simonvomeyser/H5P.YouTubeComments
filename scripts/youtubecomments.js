@@ -49,6 +49,7 @@ H5P.YouTubeComments = (function ($) {
         var videoID = YouTubeHelper.getVideoId($container);
         var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
         var $containerInner = $container.find('.h5p-youtubecomments__body');
+        $containerInner.append('<div class="h5p-youtubecomments__loading"> <span class="h5p-youtubecomments__loading-span">Loading...</span></div>')
 
         $.ajax({
           url: 'https://www.googleapis.com/youtube/v3/videos?id='+videoID+'&key='+APIKEY+'&part=snippet,statistics',
@@ -70,6 +71,8 @@ H5P.YouTubeComments = (function ($) {
               url: 'https://www.googleapis.com/youtube/v3/commentThreads?videoId='+videoID+'&key='+APIKEY+'&part=snippet',
             })
             .always(function(e) {
+              $containerInner.children().remove(); // Remove Loading
+
               /**
                * Iterate through comments, add them to the container
                */
