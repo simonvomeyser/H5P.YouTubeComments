@@ -47,7 +47,7 @@ H5P.YouTubeComments = (function ($) {
        */
       setTimeout(function() {
         var videoID = YouTubeHelper.getVideoId($container);
-        var APIKEY = 'AIzaSyAJ7W8CQHbwc-liw4yet69yUwiMxtAQk78';
+        var APIKEY = '' // Add your API key here, the old one was deactivated
         var $containerInner = $container.find('.h5p-youtubecomments__body');
         $containerInner.append('<div class="h5p-youtubecomments__loading"> <span class="h5p-youtubecomments__loading-span">Loading...</span></div>')
 
