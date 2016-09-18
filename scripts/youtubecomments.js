@@ -110,7 +110,7 @@ H5P.YouTubeComments = (function ($) {
 
         }) // --END callback videoApiCall
         .fail(function(e) {
-          console.log (e);
+          console.log (e); // To see the YouTube Error
           displayError(null, $container);
         });  // --END Fail callback videoApiCall
       }, 1000); // --END Timeout
@@ -130,7 +130,7 @@ H5P.YouTubeComments = (function ($) {
        * @return {String}            
        */
       this.getVideoUrl = function($container) {
-        return $container.parents('.h5p-video-wrapper').find('iframe').attr('src');
+        return $container.parents('.h5p-content').find('iframe').attr('src');
       }
 
       this.getVideoId = function($container) {

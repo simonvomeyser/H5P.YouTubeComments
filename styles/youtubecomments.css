@@ -12,8 +12,8 @@
 
 .h5p-youtubecomments__hide-button {
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 2px;
+	right: 6px;
 	font-size: 24px;
 }
 .h5p-youtubecomments__hide-button:hover {
