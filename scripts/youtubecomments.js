@@ -14,12 +14,13 @@ H5P.YouTubeComments = (function ($) {
     this.options = $.extend(true, {}, {
       title: 'YouTube Comments',
       secondsBetween: 2,
-      clearCommentsAfter: 0
+      clearCommentsAfter: 0,
+      apiKey: ''
     }, options);
     // Keep provided id.
     this.id = id;
 
-    // Broke Image Handling
+    // Broken Image Handling
     $('.youtubecomment__authorProfileImage>img').error(function(){
       $(this).attr('src', 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50');
     });
@@ -46,9 +47,11 @@ H5P.YouTubeComments = (function ($) {
        * Wait for one second - unfortunatly this is necessary
        */
       setTimeout(function() {
-        var videoID = YouTubeHelper.getVideoId($container);
-        var APIKEY = '' // Add your API key here, the old one was deactivated
-        var $containerInner = $container.find('.h5p-youtubecomments__body');
+        var videoID = YouTubeHelper.getVideoId($container),
+          APIKEY = self.options.apiKey
+          $containerInner = $container.find('.h5p-youtubecomments__body');
+
+        // Add loading indicator  
         $containerInner.append('<div class="h5p-youtubecomments__loading"> <span class="h5p-youtubecomments__loading-span">Loading...</span></div>')
 
         $.ajax({
@@ -115,7 +118,7 @@ H5P.YouTubeComments = (function ($) {
         }) // --END callback videoApiCall
         .fail(function(e) {
           console.log (e); // To see the YouTube Error
-          displayError(null, $container);
+          displayError("Es ist ein Fehler mit dem API-Key oder mit der Verbindung aufgetreten. Mehr Informationen in der Konsole",  $container);
         });  // --END Fail callback videoApiCall
       }, 1000); // --END Timeout
 

@@ -32,5 +32,11 @@
   "max": 10,
   "step": 1,
   "default": 0
+  },
+  {
+  "name": "apiKey",
+  "type": "text",
+  "label": "API-Key",
+  "description": "Enter your Youtube API Key here. (https://developers.google.com/youtube/v3/getting-started)"
   }
 ]
